@@ -1,0 +1,32 @@
+# purchase and manage Reserved Instances (RIs) for EC2 instances
+# list all the reserved instances, modify the reserved instances as per your requirements
+import boto3
+
+# Create an EC2 client
+ec2 = boto3.client('ec2')
+
+# Define the parameters for the RI purchase
+params = {
+    'InstanceCount': 1,
+    'InstanceType': 't3.micro',
+    'ProductDescription': 'Linux/UNIX',
+    'PurchaseToken': 'your_purchase_token',
+    'OfferingClass': 'standard'
+}
+
+# Purchase the RI
+response = ec2.purchase_reserved_instances_offering(**params)
+
+# Print the ID of the newly created RI
+print(response['ReservedInstancesId'])
+
+
+# list, describe and modify reserved instances using the boto3 library
+
+#List all reserved instances
+response = ec2.describe_reserved_instances()
+print(response)
+
+#Modify Reserved instances
+response = ec2.modify_reserved_instances(ReservedInstancesId='your_reservation_id', TargetConfigurations=[{'OfferingId': 'your_offering_id', 'InstanceCount': 2}])
+print(response)
